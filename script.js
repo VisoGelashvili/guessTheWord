@@ -19,6 +19,7 @@ scoreSpan.className = 'span';
 document.body.appendChild(scoreSpan);
 
 let currentIndex = 0;
+let scoreAdd = false;
 
 function loadWord(index) {
     const wordContainer = document.getElementById('wordContainer');
@@ -51,6 +52,7 @@ function loadWord(index) {
         });
         wordContainer.appendChild(input);
     }
+    scoreAdd = false;
 }
 
 function btn(text, callback, style) {
@@ -82,13 +84,14 @@ function checkWord() {
         }
     });
     
-    if (isCorrect) {
+    if (isCorrect && !scoreAdd) {
         score += 2;
         scoreSpan.textContent = `ქულა: ${score}`;
-    } else {
+        scoreAdd = true;
+    } else if (!isCorrect) {
         alert('არასწორი სიტყვა');
     }
-};
+}
 
 const wordContainer = document.createElement('div');
 wordContainer.id = 'wordContainer';
@@ -104,8 +107,8 @@ btn('შემდეგი სიტყვა', function() {
 }, 'background-color: blue; color: white;');
 
 btn('თავიდან დაწყება', function() {
-    currentIndex = (currentIndex + 1) % words.length;
+    currentIndex = 0;
     score = 0;
     scoreSpan.textContent = `ქულა: ${score}`;
     loadWord(currentIndex);
-}, 'background-color: orange; color: black'); 
+}, 'background-color: orange; color: black');
